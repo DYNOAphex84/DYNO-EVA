@@ -1,15 +1,14 @@
 export type MatchStatus = 'upcoming' | 'live' | 'completed';
-export type MatchFormat = 'BO1' | 'BO3' | 'BO5';
 export type Page = 'dashboard' | 'matches' | 'pickban' | 'players' | 'scores' | 'strategies' | 'history';
 
 export interface Match {
   id: string;
   date: string;
-  time: string;
+  time1: string;
+  time2?: string;
+  arena: 'Arena 1' | 'Arena 2';
   opponent: string;
-  opponentLogo: string;
   division: string;
-  format: MatchFormat;
   status: MatchStatus;
   lineup: string[];
   scores: MatchScore[];
