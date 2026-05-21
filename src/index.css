@@ -1,14 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  --color-gold-500: #FFD700;
-  --color-gold-400: #FFE44D;
-  --color-gold-600: #DAA520;
-  --color-dark-bg: #0A0A0A;
-  --color-dark-card: #141414;
-  --color-dark-card2: #1A1A1A;
-  --color-dark-border: #2A2A2A;
-  --color-dark-hover: #222222;
+  --color-gold: #FFD700;
+  --color-gold-dark: #DAA520;
+  --color-bg: #0A0A0A;
+  --color-card: #111111;
+  --color-card2: #1A1A1A;
+  --color-border: #2A2A2A;
+  --color-border-gold: #DAA52040;
   --font-orbitron: 'Orbitron', sans-serif;
   --font-rajdhani: 'Rajdhani', sans-serif;
   --font-inter: 'Inter', sans-serif;
@@ -23,64 +22,23 @@ body {
   overflow-x: hidden;
 }
 
-::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: #0A0A0A; }
 ::-webkit-scrollbar-thumb { background: #DAA520; border-radius: 2px; }
 
-@keyframes slide-up {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes slide-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.animate-slide-up { animation: slide-up 0.4s ease-out; }
 
-@keyframes pulse-gold {
-  0%, 100% { box-shadow: 0 0 5px #FFD70030; }
-  50% { box-shadow: 0 0 20px #FFD70050; }
-}
-
-.animate-slide-up { animation: slide-up 0.5s ease-out; }
-.animate-pulse-gold { animation: pulse-gold 2s ease-in-out infinite; }
-
-.gold-text {
-  color: #FFD700;
-  text-shadow: 0 0 20px #FFD70030;
-}
-
-.gold-border {
-  border: 1px solid #DAA52040;
-}
-
-.card-dark {
-  background: linear-gradient(145deg, #141414 0%, #1A1A1A 100%);
-  border: 1px solid #2A2A2A;
-  border-radius: 16px;
-  transition: all 0.3s ease;
-}
-
-.card-dark:hover {
-  border-color: #DAA52050;
-  box-shadow: 0 4px 20px #00000080;
-}
-
-.card-gold {
-  background: linear-gradient(145deg, #1A1700 0%, #2A2200 100%);
-  border: 1px solid #DAA52040;
-  border-radius: 16px;
-}
+.gold-text { color: #FFD700; }
 
 input, select, textarea {
-  background: #141414;
+  background: #111111;
   border: 1px solid #2A2A2A;
   color: #E0E0E0;
   padding: 0.75rem 1rem;
   border-radius: 12px;
   font-family: 'Inter', sans-serif;
   outline: none;
-  transition: border-color 0.2s;
 }
-
-input:focus, select:focus, textarea:focus {
-  border-color: #DAA520;
-  box-shadow: 0 0 10px #DAA52020;
-}
-
-select option { background: #141414; color: #E0E0E0; }
+input:focus, select:focus { border-color: #DAA520; }
+select option { background: #111111; }
