@@ -1,16 +1,5 @@
 import { Page } from '../types';
-import {
-  LayoutDashboard,
-  Calendar,
-  Map,
-  Users,
-  Trophy,
-  Lightbulb,
-  History,
-  Menu,
-  X,
-  Gamepad2,
-} from 'lucide-react';
+import { Calendar, Trophy, Users, Target, Lightbulb, History, Menu, X, Gamepad2, ClipboardList, Search } from 'lucide-react';
 
 interface SidebarProps {
   currentPage: Page;
@@ -19,80 +8,76 @@ interface SidebarProps {
   onToggle: () => void;
 }
 
-const navItems: { page: Page; label: string; icon: React.ReactNode }[] = [
-  { page: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
-  { page: 'matches', label: 'Matchs', icon: <Calendar size={20} /> },
-  { page: 'pickban', label: 'Pick & Ban', icon: <Map size={20} /> },
-  { page: 'players', label: 'Joueurs', icon: <Users size={20} /> },
-  { page: 'scores', label: 'Scores', icon: <Trophy size={20} /> },
-  { page: 'strategies', label: 'Stratégies', icon: <Lightbulb size={20} /> },
-  { page: 'history', label: 'Historique', icon: <History size={20} /> },
+const navItems: { page: Page; label: string; sub: string; icon: React.ReactNode; color: string }[] = [
+  { page: 'matches', label: 'Matchs', sub: 'Prochains matchs et disponibilités', icon: <Calendar size={20} />, color: 'bg-red-500/10 text-red-400' },
+  { page: 'scores', label: 'Résultats', sub: 'Historique des scores', icon: <Trophy size={20} />, color: 'bg-yellow-500/10 text-yellow-400' },
+  { page: 'players', label: 'Roster', sub: 'Composition de l\'équipe', icon: <Users size={20} />, color: 'bg-blue-500/10 text-blue-400' },
+  { page: 'pickban', label: 'Strats', sub: 'Picks et bans', icon: <Target size={20} />, color: 'bg-red-500/10 text-red-400' },
+  { page: 'strategies', label: 'Compos', sub: 'Compositions par map', icon: <ClipboardList size={20} />, color: 'bg-green-500/10 text-green-400' },
+  { page: 'history', label: 'Fiches', sub: 'Analyse des adversaires', icon: <Search size={20} />, color: 'bg-purple-500/10 text-purple-400' },
 ];
 
 export default function Sidebar({ currentPage, onNavigate, isOpen, onToggle }: SidebarProps) {
   return (
     <>
-      {isOpen && (
-        <div className="fixed inset-0 bg-black/60 z-40 lg:hidden" onClick={onToggle} />
-      )}
+      {isOpen && <div className="fixed inset-0 bg-black/80 z-40 lg:hidden" onClick={onToggle} />}
 
-      <button
-        onClick={onToggle}
-        className="fixed top-4 left-4 z-50 lg:hidden p-2 rounded-lg bg-dark-700 border border-dark-400 text-neon-blue"
-      >
+      <button onClick={onToggle} className="fixed top-4 left-4 z-50 lg:hidden p-3 rounded-full bg-dark-card border border-dark-border text-gold-500">
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      <aside
-        className={`fixed top-0 left-0 h-full z-40 w-64 bg-dark-800 border-r border-dark-400/50 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}
-      >
-        <div className="p-6 border-b border-dark-400/50">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-neon-blue to-neon-purple flex items-center justify-center">
-              <Gamepad2 size={22} className="text-white" />
+      <aside className={`fixed top-0 left-0 h-full z-40 w-80 bg-dark-bg border-r border-dark-border transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
+        {/* Header */}
+        <div className="p-6 border-b border-dark-border">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gold-500 to-gold-600 flex items-center justify-center">
+              <Gamepad2 size={24} className="text-black" />
             </div>
             <div>
-              <h1 className="font-orbitron text-lg font-bold text-white neon-text">DYNO EVA</h1>
-              <p className="text-[10px] font-rajdhani tracking-[0.3em] text-neon-blue/70 uppercase">Esport Arena</p>
+              <h1 className="font-orbitron text-xl font-bold gold-text">DYNO</h1>
+              <p className="text-xs text-gray-500 font-rajdhani tracking-wider">ESPORT TEAM</p>
+            </div>
+          </div>
+
+          {/* User Card */}
+          <div className="card-dark p-4 flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-gold-500 to-gold-600 flex items-center justify-center text-black font-bold text-lg font-orbitron">
+              D
+            </div>
+            <div className="flex-1">
+              <p className="text-white font-bold">DYNOAphex</p>
+              <p className="text-xs text-red-400">Admin</p>
+            </div>
+            <div className="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center justify-center">
+              <span className="text-red-400 text-xs">↪</span>
             </div>
           </div>
         </div>
 
-        <nav className="p-4 space-y-1">
+        {/* Navigation */}
+        <nav className="p-4 space-y-2">
           {navItems.map((item) => {
             const isActive = currentPage === item.page;
             return (
               <button
                 key={item.page}
-                onClick={() => {
-                  onNavigate(item.page);
-                  if (window.innerWidth < 1024) onToggle();
-                }}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  isActive
-                    ? 'bg-neon-blue/10 text-neon-blue border border-neon-blue/20'
-                    : 'text-gray-400 hover:text-white hover:bg-dark-600/50 border border-transparent'
+                onClick={() => { onNavigate(item.page); if (window.innerWidth < 1024) onToggle(); }}
+                className={`w-full flex items-center gap-4 p-4 rounded-2xl transition-all ${
+                  isActive ? 'card-gold border-gold-600/40' : 'hover:bg-dark-hover'
                 }`}
               >
-                <span className={isActive ? 'text-neon-blue' : 'text-gray-500'}>{item.icon}</span>
-                <span className="font-rajdhani text-base">{item.label}</span>
-                {isActive && (
-                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-neon-blue animate-glow-pulse" />
-                )}
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${item.color}`}>
+                  {item.icon}
+                </div>
+                <div className="text-left flex-1">
+                  <p className={`font-bold text-base ${isActive ? 'gold-text' : 'text-white'}`}>{item.label}</p>
+                  <p className="text-xs text-gray-500">{item.sub}</p>
+                </div>
+                {isActive && <div className="w-2 h-2 rounded-full bg-gold-500 animate-pulse-gold" />}
               </button>
             );
           })}
         </nav>
-
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-dark-400/30">
-          <div className="flex items-center gap-3 px-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-neon-purple to-neon-pink flex items-center justify-center text-sm">🎮</div>
-            <div>
-              <p className="text-xs font-medium text-white">Coach Dyno</p>
-              <p className="text-[10px] text-gray-500">Admin</p>
-            </div>
-          </div>
-        </div>
       </aside>
     </>
   );
