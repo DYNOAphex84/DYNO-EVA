@@ -9,6 +9,7 @@ import Players from './components/Players';
 import Scores from './components/Scores';
 import Strategies from './components/Strategies';
 import History from './components/History';
+import { Download } from 'lucide-react';
 
 function useLocalState<T>(key: string, initial: T): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [state, setState] = useState<T>(() => {
@@ -30,6 +31,32 @@ export default function App() {
   const [players, setPlayers] = useLocalState<Player[]>('dyno-players', initialPlayers);
   const [strategies, setStrategies] = useLocalState<Strategy[]>('dyno-strategies', initialStrategies);
   const [notification, setNotification] = useState<string | null>(null);
+  
+  // PWA Install logic
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [showInstallBtn, setShowInstallBtn] = useState(false);
+
+  useEffect(() => {
+    const handler = (e: any) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallBtn(true);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstallClick = () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult: any) => {
+        if (choiceResult.outcome === 'accepted') {
+          setShowInstallBtn(false);
+        }
+        setDeferredPrompt(null);
+      });
+    }
+  };
 
   const showNotification = (msg: string) => {
     setNotification(msg);
@@ -100,6 +127,7 @@ export default function App() {
         </div>
       )}
 
+      {/* Top bar */}
       <div className="fixed top-0 right-0 left-0 lg:left-64 h-14 glass-panel z-30 flex items-center justify-end px-4 gap-4 lg:px-8 border-b border-dark-400/20">
         <div className="hidden sm:flex items-center gap-4">
           <div className="flex items-center gap-1.5">
@@ -109,9 +137,16 @@ export default function App() {
           <div className="h-4 w-px bg-dark-400/30" />
           <span className="text-[11px] text-gray-400 font-rajdhani">{matches.filter((m) => m.status === 'upcoming').length} matchs à venir</span>
         </div>
+        
+        {showInstallBtn && (
+          <button onClick={handleInstallClick} className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-neon-green/10 border border-neon-green/30 text-neon-green text-xs hover:bg-neon-green/20 transition-all">
+            <Download size={12} /> Installer l'app
+          </button>
+        )}
+
         <div className="flex items-center gap-2 ml-auto">
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-neon-blue to-neon-purple flex items-center justify-center text-xs">🎮</div>
-          <span className="text-xs text-white font-medium hidden sm:block">Dyno EVA</span>
+          <span className="text-xs text-white font-medium hidden sm:block">EVA</span>
         </div>
       </div>
     </div>
