@@ -1,44 +1,13 @@
-@import "tailwindcss";
-
-@theme {
-  --color-gold: #FFD700;
-  --color-gold-dark: #DAA520;
-  --color-bg: #0A0A0A;
-  --color-card: #111111;
-  --color-card2: #1A1A1A;
-  --color-border: #2A2A2A;
-  --color-border-gold: #DAA52040;
-  --font-orbitron: 'Orbitron', sans-serif;
-  --font-rajdhani: 'Rajdhani', sans-serif;
-  --font-inter: 'Inter', sans-serif;
+.card-gold-banner {
+  background: linear-gradient(145deg, #1A1700 0%, #0D0D00 100%);
+  border: 1px solid #DAA52040;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px #00000080;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  background: #0A0A0A;
-  color: #E0E0E0;
-  font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
-}
-
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: #0A0A0A; }
-::-webkit-scrollbar-thumb { background: #DAA520; border-radius: 2px; }
-
-@keyframes slide-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-.animate-slide-up { animation: slide-up 0.4s ease-out; }
-
-.gold-text { color: #FFD700; }
-
-input, select, textarea {
-  background: #111111;
+.card-match {
+  background: linear-gradient(145deg, #111111 0%, #0D0D0D 100%);
   border: 1px solid #2A2A2A;
-  color: #E0E0E0;
-  padding: 0.75rem 1rem;
-  border-radius: 12px;
-  font-family: 'Inter', sans-serif;
-  outline: none;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px #00000040;
 }
-input:focus, select:focus { border-color: #DAA520; }
-select option { background: #111111; }
